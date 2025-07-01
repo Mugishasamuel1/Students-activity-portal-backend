@@ -56,7 +56,7 @@ module.exports.likePost = asyncHandler(async (req, res, next) => {
 
 module.exports.getOnePost = asyncHandler(async (req, res, next) => {
   const { postId } = req.params;
-  const post = await Post.findById(postId).populate("author likes");
+  const post = await Post.findById(postId).populate("author likes"); //populates: instead of just returning the IDs, it returns the full user objects
   if (!post) {
     return next(new ErrorResponse("Post not found", 404));
   }

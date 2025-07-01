@@ -3,7 +3,7 @@ const ErrorResponse = require("../utils/ErrorResponse");
 const User = require("../models/User");
 
 module.exports.register = asyncHandler(async (req, res, next) => {
-  const { names, email, username, password } = req.body;
+  const { names, email, username, password, role } = req.body;
 
   const userWithEmail = await User.findOne({ email });
   if (userWithEmail) {
@@ -19,11 +19,16 @@ module.exports.register = asyncHandler(async (req, res, next) => {
     );
   }
 
+  if (!["student", "admin", "trainer"].includes(role)) {
+    return next(new ErrorResponse("Invalid role specified", 400));
+  }
+
   let user = await User.create({
     names,
     email,
     username,
     password,
+    role
   });
 
   if (user) {

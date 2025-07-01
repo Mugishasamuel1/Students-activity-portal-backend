@@ -29,6 +29,11 @@ const UserSchema = new mongoose.Schema({
     minlength: 6,
     maxlength: 255,
   },
+  role: {
+    type: String,
+    enum: ["student", "admin", "trainer"],
+    default: "student",
+  },
 });
 
 // Encrypt password using bcrypt
